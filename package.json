@@ -1,0 +1,22 @@
+{
+  "name": "tradingbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "deploy": "npx ngrok config add-authtoken 23KJK9Ld7M8wiCRZ6Zy7o7VmFJs_38c2YuCZP1hYbfxPRLXqX && npx ngrok http 3000"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ccxt": "^4.0.33",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "ngrok": "^5.0.0-beta.2",
+    "node-binance-api": "^0.13.1",
+    "node-telegram-bot-api": "^0.61.0",
+    "nodemon": "^3.0.1"
+  }
+}
