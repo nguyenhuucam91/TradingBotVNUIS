@@ -13,16 +13,23 @@ app.get('/', function (req,res) {
 })
 
 app.post('/create-order', function (req, res) { 
+  const body = req.body.message;
+  const ticker = body.match(`Ticker: (\w+)`)
+  const orderPrice = body.match(`Price: (\d+.?\d+)`)
+  const strategyLongShort = body.match(`Strategy long\/short: (\w+)`)
   try {
     //binance place order
+    binanceService.createOrder(ticker, "market", strategyLongShort, 1, orderPrice);
+    //send notification to telegram
     telegramBot.sendMessage(config.service.telegram.CHAT_ID, `Order created for: \n${req.body.message}`);
-    res.status(200).send({
+    res.status(200).json({
       success: true
     })
-  } catch (e) { 
-    res.status(500).send({
+  } catch (e) {
+    telegramBot.sendMessage(config.service.telegram.CHAT_ID, e.stack)
+    res.status(500).json({
       success: false,
-      trace: e.stackTrace,
+      trace: e.stack,
       message: "Cannot place order"
     })
   }

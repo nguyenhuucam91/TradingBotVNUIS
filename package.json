@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "deploy": "npx ngrok config add-authtoken 23KJK9Ld7M8wiCRZ6Zy7o7VmFJs_38c2YuCZP1hYbfxPRLXqX && npx ngrok http 3000"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
