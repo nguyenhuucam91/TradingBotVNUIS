@@ -19,7 +19,7 @@ app.post('/create-order', function (req, res) {
   const strategyLongShort = body.match(`Strategy long\/short: (\w+)`)
   try {
     //binance place order
-    binanceService.createOrder(ticker, "market", strategyLongShort, 1, orderPrice);
+    // binanceService.createOrder(ticker, "market", strategyLongShort, 1, orderPrice);
     //send notification to telegram
     telegramBot.sendMessage(config.service.telegram.CHAT_ID, `Order created for: \n${req.body.message}`);
     return res.status(200).json({
