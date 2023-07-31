@@ -22,12 +22,12 @@ app.post('/create-order', function (req, res) {
     binanceService.createOrder(ticker, "market", strategyLongShort, 1, orderPrice);
     //send notification to telegram
     telegramBot.sendMessage(config.service.telegram.CHAT_ID, `Order created for: \n${req.body.message}`);
-    res.status(200).json({
+    return res.status(200).json({
       success: true
     })
   } catch (e) {
     telegramBot.sendMessage(config.service.telegram.CHAT_ID, e.stack)
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       trace: e.stack,
       message: "Cannot place order"
