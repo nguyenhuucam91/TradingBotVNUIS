@@ -8,18 +8,28 @@ const telegramBot = require("./vendors/telegramService");
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
+const type = {
+  MARKET: "market",
+  LIMIT: "limit"
+}
+
 app.get('/', function (req,res) {
-  res.send("HEllo world");
+  res.send("Hello world");
 })
 
 app.post('/create-order', function (req, res) { 
+
   const body = req.body.message;
-  const ticker = body.match(`Ticker: (\w+)`)
-  const orderPrice = body.match(`Price: (\d+.?\d+)`)
-  const strategyLongShort = body.match(`Strategy long\/short: (\w+)`)
+  const tickerRegex = body.match(/Ticker: (\w+)/)
+  const orderPriceRegex = body.match(/Price: (\d+.?\d+)/)
+  const strategyLongShortRegex = body.match(/Strategy long\/short: (\w+)/)
+
+  const ticker = tickerRegex ? tickerRegex[1] : 'BTCUSDT'
+  const orderPrice = orderPriceRegex ? orderPriceRegex[1] : null
+  const strategyLongShort = strategyLongShortRegex ? strategyLongShortRegex[1] : 'long'
   try {
     //binance place order
-    binanceService.createOrder(ticker, "market", strategyLongShort, 1, orderPrice);
+    binanceService.createOrder(ticker, type.MARKET, strategyLongShort, 1, orderPrice);
     //send notification to telegram
     telegramBot.sendMessage(config.service.telegram.CHAT_ID, `Order created for: \n${req.body.message}`);
     return res.status(200).json({
